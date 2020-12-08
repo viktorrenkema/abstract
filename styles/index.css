@@ -18,6 +18,11 @@
 
 /* Course and video player */
 
+.wrap-courseCategories {
+  margin-bottom: 1rem;
+  margin-left: -1rem;
+}
+
 video {
 }
 video:focus {
@@ -49,6 +54,7 @@ video:focus {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-right: 1rem;
 }
 
 .chapterCard {
@@ -156,6 +162,10 @@ div {
   color: white;
 }
 
+.min-h-screen {
+  background-color: #0f0f1a;
+}
+
 h1 {
   font-family: "Source Serif Pro", serif;
   font-size: 100px;
@@ -194,13 +204,6 @@ ul {
   text-decoration: none;
 }
 
-.inlineTeacher {
-  font-family: "SF Pro Display", sans-serif;
-  display: inline;
-  font-size: 24px;
-  font-weight: 400;
-}
-
 main {
   padding: 5rem 0;
   flex: 1;
@@ -208,7 +211,6 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #0f0f1a;
 }
 
 footer {

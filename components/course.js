@@ -1,13 +1,12 @@
-import Video from "../public/videos/cookingvideo.mp4";
 import Chapters from "./chapters";
 
 export default function Course() {
   return (
     <div className="courseWindow">
       <div className="videoPlayer">
-        <video id="courseVideo" width="670" height="377" controls autoplay>
+        <video id="courseVideo" width="787" height="433" controls autoPlay>
           <source
-            src={require("../public/videos/cookingvideo.mp4")}
+            src={require("../public/videos/recording.mp4")}
             type="video/mp4"
           />
         </video>

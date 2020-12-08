@@ -1,9 +1,9 @@
 import { motion, AnimateSharedLayout } from "framer-motion";
+import { TEACHERFN } from "../lib/constants";
 
-export default function CourseCategories() {
-  const [tab, setCurrentTab] = React.useState(1);
+export default function CourseCategories({ tab, setCurrentTab }) {
   return (
-    <section style={{ marginLeft: "-1rem" }}>
+    <section className="wrap-courseCategories">
       <ul>
         <AnimateSharedLayout transition={{ duration: 0.5, ease: "anticipate" }}>
           <motion.li
@@ -26,7 +26,7 @@ export default function CourseCategories() {
             onClick={() => setCurrentTab(2)}
             style={{ opacity: tab === 2 ? "1" : "0.5" }}
           >
-            Over Miljuschka
+            Over {TEACHERFN}
             {tab === 2 && (
               <motion.div
                 layoutId="underline"
