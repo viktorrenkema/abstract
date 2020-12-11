@@ -63,19 +63,13 @@ video:focus {
   flex-shrink: 0;
   width: 350px;
   height: 60px;
-  overflow: visible;
-  border-color: var(--token-ecb734e1-431d-45b0-8725-64e4ad066c93, #e0e0e0)
-    /* {"name":"TextWhite"} */;
-  border-style: solid;
-  border-top-width: 0px;
-  border-bottom-width: 1px;
-  border-left-width: 0px;
-  border-right-width: 0px;
+  margin-bottom: 10px;
+  background-color: #14181d;
 }
 
-.chapterCard:nth-child(1) {
-  border-radius: 5px 5px 0px 0px;
-}
+/* .chapterCard:nth-child(uneven) {
+  margin-bottom: 10px;
+} */
 
 .flexwrapButton {
   width: 90px;
@@ -85,7 +79,6 @@ video:focus {
   justify-content: center;
   align-items: center;
   overflow: visible;
-  background-color: #1c1c27;
 }
 
 .flexwraptext {
@@ -98,7 +91,6 @@ video:focus {
   align-items: flex-start;
   padding: 20px;
   overflow: visible;
-  background-color: #1c1c27;
 }
 
 .containerCourseIntro {
@@ -121,10 +113,8 @@ video:focus {
 
 .textStyle1 {
   flex-shrink: 0;
-
   overflow: hidden;
-  /* font-family: "Inter-Light", "Inter", sans-serif; */
-  color: var(--Text, white);
+  color: #e0e0e0;
   font-size: 14px;
   letter-spacing: 0px;
   line-height: 1.2;
@@ -132,13 +122,61 @@ video:focus {
 }
 
 .textStyle2 {
-  /* font-family: "Inter-Light", "Inter", sans-serif; */
-  color: var(--Text, #c9bdc3);
+  color: #e0e0e0;
   letter-spacing: 0px;
   line-height: 1.2;
   font-size: 12px;
   font-weight: 500;
   margin-top: 4px;
+}
+
+.presents-wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.presents-copy {
+  /* color: #d4d1d1;
+  font-weight: 800;
+  letter-spacing: 1px; */
+  font-size: 12px;
+  letter-spacing: 0px;
+  line-height: 1.2;
+  font-weight: 500;
+}
+
+.coursename {
+  margin-top: 10rem;
+  font-size: 88px;
+}
+
+.teacher {
+  font-weight: 300;
+  font-size: 26px;
+  opacity: 0.8;
+}
+
+/* Video player */
+.circle {
+  z-index: 3;
+  width: 75px;
+  height: 75px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  overflow: visible;
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.15);
+  background-color: #171717;
+  opacity: 0.9;
+  border-radius: 45px;
+  position: absolute;
+}
+
+.videobutton-svg {
+  padding-left: 4px;
+  overflow: visible;
 }
 
 /* General styling */
@@ -163,26 +201,25 @@ div {
 }
 
 .min-h-screen {
-  background-color: #0f0f1a;
+  background-color: #0a1013;
 }
 
 h1 {
   font-family: "Source Serif Pro", serif;
-  font-size: 100px;
+  font-size: 60px;
   font-weight: 700;
   letter-spacing: -0.04em;
-  margin-bottom: 4rem;
+  line-height: 100%;
 }
 
 h2 {
   font-family: "Source Serif Pro", serif;
-  color: var(--TextPink, #c9bdc3);
-  font-size: 42px;
+  color: #fafafa;
+  font-size: 72px;
   letter-spacing: 0px;
   line-height: 1;
-  font-weight: 700;
+  font-weight: 400;
   font-style: normal;
-  margin-bottom: 1rem;
 }
 
 li {

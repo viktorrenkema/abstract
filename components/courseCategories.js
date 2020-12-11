@@ -1,5 +1,6 @@
 import { motion, AnimateSharedLayout } from "framer-motion";
 import { TEACHERFN } from "../lib/constants";
+import { THEME_TINT } from "../lib/constants";
 
 export default function CourseCategories({ tab, setCurrentTab }) {
   return (
@@ -17,7 +18,8 @@ export default function CourseCategories({ tab, setCurrentTab }) {
                 style={{
                   height: "1px",
                   width: "100%",
-                  background: "#FF0088",
+                  background: `${THEME_TINT}`,
+                  marginTop: "-2px",
                 }}
               ></motion.div>
             )}
@@ -33,7 +35,8 @@ export default function CourseCategories({ tab, setCurrentTab }) {
                 style={{
                   height: "1px",
                   width: "100%",
-                  background: "#FF0088",
+                  background: `${THEME_TINT}`,
+                  marginTop: "-2px",
                 }}
               ></motion.div>
             )}
@@ -49,7 +52,8 @@ export default function CourseCategories({ tab, setCurrentTab }) {
                 style={{
                   height: "1px",
                   width: "100%",
-                  background: "#FF0088",
+                  background: `${THEME_TINT}`,
+                  marginTop: "-2px",
                 }}
               ></motion.div>
             )}
