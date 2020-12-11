@@ -12,7 +12,6 @@ export default function CourseIntro() {
       ></CourseCategories>
       {tab === 1 && (
         <>
-          <h2 className="">Podcasts met {TEACHER}</h2>
           <p className="courseIntroContent">
             Een podcast is een opgenomen audio-uitzending die online te
             luisteren of te downloaden is. Luisteraars kunnen op podcasts

@@ -52,7 +52,6 @@ function Play(props) {
         width: 71,
         height: 31,
         overflow: "visible",
-        backgroundColor: "#1c1c27",
         borderRadius: 5,
         margin: "5px",
         display: "flex",
@@ -88,7 +87,7 @@ function Pause(props) {
         width: 71,
         height: 31,
         overflow: "visible",
-        backgroundColor: "#1c1c27",
+
         borderRadius: 5,
         margin: "5px",
         display: "flex",
@@ -125,7 +124,7 @@ function Time(props) {
         width: 71,
         height: 31,
         overflow: "visible",
-        backgroundColor: "#1c1c27",
+
         borderRadius: 5,
         margin: "5px",
         display: "flex",
