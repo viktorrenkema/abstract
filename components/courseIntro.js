@@ -27,7 +27,6 @@ export default function CourseIntro() {
       )}
       {tab === 2 && (
         <>
-          <h2>{TEACHER}</h2>
           <p className="courseIntroContent">
             Marciano is een jongen die graag geniet van een pilske, en een
             enorme passie heeft voor podcasts maken.

@@ -1,7 +1,10 @@
 import * as React from "react";
 import { motion } from "framer-motion";
 import { THEME_TINT } from "../lib/constants";
-import GlobalState from "../state/context";
+
+// Context imports
+import { VideoID } from "../state/context";
+import { GlobalState } from "../state/context";
 
 const chapterCardVariants = {
   inactive: {
@@ -13,33 +16,40 @@ const chapterCardVariants = {
 };
 
 export default function ChapterCard({ chapterTitle, chapterDuration, id }) {
-  const [video, setVideo] = React.useState(null);
-
+  // Context
+  const [chapterPlaying, setChapterPlaying] = React.useContext(VideoID);
   const [playStatus, setPlayStatus] = React.useState(false);
+  const [time, setTime] = React.useContext(GlobalState);
+  // End contexts
 
-  const [globalChapterPlaying, setGlobalChapterPlaying] = React.useContext(
-    GlobalState
-  );
+  // Logging
+  console.log("Video ID is ", chapterPlaying);
+  // End logging
+
+  const [videoElement, setVideoElement] = React.useState(null);
 
   React.useEffect(() => {
     const documentVideo = document.getElementById("courseVideo");
-    setVideo(documentVideo);
+    setVideoElement(documentVideo);
   }, []);
 
   function playVid() {
-    setGlobalChapterPlaying(id);
-    setPlayStatus(!playStatus);
-    playStatus ? video.pause() : video.play();
-    video.currentTime = chapterDuration;
+    setChapterPlaying(id);
+    setPlayStatus(true);
+    videoElement.play();
+    videoElement.currentTime = chapterDuration;
   }
 
-  console.log(globalChapterPlaying);
+  // if (time < chapterDuration) {
+  //   setChapterPlaying(id);
+  //   console.log(chapterDuration);
+  // }
 
   return (
     <motion.div
       className="chapterCard"
       variants={chapterCardVariants}
-      animate={id === globalChapterPlaying ? "active" : "inactive"}
+      animate={id === chapterPlaying ? "active" : "inactive"}
     >
       <div className="flexwraptext">
         <span className="textStyle1">{chapterTitle}</span>
@@ -47,39 +57,30 @@ export default function ChapterCard({ chapterTitle, chapterDuration, id }) {
       </div>
 
       <div className="flexwrapButton">
-        <Play
-          onClick={playVid}
-          globalChapterPlaying={globalChapterPlaying}
-          id={id}
-        ></Play>
+        <Play onClick={playVid} chapterPlaying={chapterPlaying} id={id}></Play>
       </div>
     </motion.div>
   );
 }
 
-function Play({ onClick, id, globalChapterPlaying }) {
+function Play({ onClick, id, chapterPlaying }) {
   const variantsLineOne = {
     play: {
       d: "M 7.5 2.86 L 7.5 15.86 L 15.5 9.5 Z",
-      strokeWidth: "2",
       opacity: 1,
     },
     pause: {
-      d: "M 7.5 2.86 L 7.5 15.86 L 7.5 9.5 Z",
-      strokeWidth: "2",
-      opacity: 1,
+      // d: "M 7.5 2.86 L 7.5 15.86 L 7.5 9.5 Z",
+      opacity: 0,
     },
   };
   const variantsLineTwo = {
     play: {
       d: "M 15.5 2.86 L 15.5 15.86 L 15.5 9.5 Z",
-      strokeWidth: "2",
       opacity: 0,
     },
     pause: {
-      d: "M 15.5 2.86 L 15.5 15.86 L 15.5 9.5 Z",
-      strokeWidth: "2",
-      opacity: 1,
+      opacity: 0,
     },
   };
 
@@ -89,36 +90,30 @@ function Play({ onClick, id, globalChapterPlaying }) {
       xmlns="http://www.w3.org/2000/svg"
       width="22"
       height="18"
+      style={{ visibility: id === chapterPlaying ? "hidden" : "visible" }}
     >
       <motion.path
-        fill={id === globalChapterPlaying ? `${THEME_TINT}` : "#E0E0E0"}
-        stroke={id === globalChapterPlaying ? `${THEME_TINT}` : "#E0E0E0"}
+        fill={id === chapterPlaying ? `${THEME_TINT}` : "#E0E0E0"}
+        stroke={id === chapterPlaying ? `${THEME_TINT}` : "#E0E0E0"}
         variants={variantsLineOne}
-        animate={id === globalChapterPlaying ? "play" : "pause"}
+        animate={id === chapterPlaying ? "pause" : "play"}
         initial="play"
         strokeLinecap="round"
         strokeLinejoin="round"
+        transition={{ ease: "linear", duration: 0.1 }}
+        strokeWidth="2"
       ></motion.path>
       <motion.path
-        fill={id === globalChapterPlaying ? `${THEME_TINT}` : "#E0E0E0"}
-        stroke={id === globalChapterPlaying ? `${THEME_TINT}` : "#E0E0E0"}
+        fill={id === chapterPlaying ? `${THEME_TINT}` : "#E0E0E0"}
+        stroke={id === chapterPlaying ? `${THEME_TINT}` : "#E0E0E0"}
         initial="play"
         variants={variantsLineTwo}
-        animate={id === globalChapterPlaying ? "play" : "pause"}
+        animate={id === chapterPlaying ? "pause" : "play"}
         strokeLinecap="round"
         strokeLinejoin="round"
+        strokeWidth="2"
+        transition={{ duration: 0.01 }}
       ></motion.path>
     </motion.svg>
   );
 }
-
-// import * as React from "react"
-
-// export function Graphic() {
-//   return (
-//     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="18">
-//       <path d="M 7.5 2.86 L 7.5 15.86 L 16.5 9.5 Z" fill="rgb(224, 224, 224)" stroke="#E0E0E0" strokeLinecap="round" strokeLinejoin="round"></path>
-//       <path d="M 15.5 2.86 L 15.5 15.86 L 15.5 9.5 Z" fill="rgb(224, 224, 224)" strokeWidth="2" stroke="rgba(224, 224, 224, 0)" strokeLinecap="round" strokeLinejoin="round"></path>
-//     </svg>
-//   )
-// }

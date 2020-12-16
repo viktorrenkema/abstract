@@ -16,6 +16,15 @@
 
 /* Your own custom utilities */
 
+.teacher {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell,
+    Noto Sans, sans-serif, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
 /* Course and video player */
 
 .wrap-courseCategories {
@@ -152,9 +161,11 @@ video:focus {
 }
 
 .teacher {
-  font-weight: 300;
-  font-size: 26px;
-  opacity: 0.8;
+  font-weight: 600;
+  font-size: 18px;
+  color: #fafafa;
+  text-transform: uppercase;
+  opacity: 1;
 }
 
 /* Video player */
@@ -202,10 +213,11 @@ div {
 
 .min-h-screen {
   background-color: #0a1013;
+  min-height: 150vh;
 }
 
 h1 {
-  font-family: "Source Serif Pro", serif;
+  /* font-family: "Source Serif Pro", serif; */
   font-size: 60px;
   font-weight: 700;
   letter-spacing: -0.04em;
@@ -216,10 +228,10 @@ h2 {
   font-family: "Source Serif Pro", serif;
   color: #fafafa;
   font-size: 72px;
-  letter-spacing: 0px;
   line-height: 1;
-  font-weight: 400;
   font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.04em;
 }
 
 li {
@@ -359,4 +371,8 @@ code {
     width: 100%;
     flex-direction: column;
   }
+}
+
+svg {
+  cursor: pointer;
 }

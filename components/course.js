@@ -1,28 +1,39 @@
+import * as React from "react";
 import Chapters from "./chapters";
 import { motion } from "framer-motion";
-import VideoPlaying from "../state/context";
+import { isVideoPlaying } from "../state/context";
+
+// Context import
+import { GlobalState } from "../state/context";
 
 export default function Course() {
-  const [video, setVideo] = React.useState(null);
+  // Context
+  const [globalVideoPlaying, setGlobalVideoPlaying] = React.useContext(
+    isVideoPlaying
+  );
+  const [time, setTime] = React.useContext(GlobalState);
+
+  console.log("isVideoPlaying is ", globalVideoPlaying);
+
+  const [video, setVideo] = React.useState([]);
+  const [elapsed, setElapsed] = React.useState(0);
 
   React.useEffect(() => {
     const documentVideo = document.getElementById("courseVideo");
     setVideo(documentVideo);
-  }, []);
-
-  const [globalVideoPlaying, setGlobalVideoPlaying] = React.useContext(
-    VideoPlaying
-  );
-  console.log("global video playing is ", globalVideoPlaying);
-
-  if (video)
-    video.onpause = function () {
-      setGlobalVideoPlaying(false);
+    video.ontimeupdate = function () {
+      console.log(video.currentTime);
+      setTime(video.currentTime);
     };
-  if (video)
-    video.onplay = function () {
-      setGlobalVideoPlaying(true);
-    };
+  }, [time]);
+
+  video.onpause = function () {
+    setGlobalVideoPlaying(false);
+  };
+
+  video.onplay = function () {
+    setGlobalVideoPlaying(true);
+  };
 
   function toggleContinuePlaying() {
     setGlobalVideoPlaying(!globalVideoPlaying);
@@ -36,21 +47,14 @@ export default function Course() {
           globalVideoPlaying={globalVideoPlaying}
           onClick={toggleContinuePlaying}
         ></VideoButton>
-        <video
-          id="courseVideo"
-          width="787"
-          height="433"
-          controls
-          muted
-          autoplay
-        >
+        <video id="courseVideo" width="787" height="433" controls muted>
           <source
             src={require("../public/videos/recording.mp4")}
             type="video/mp4"
           />
         </video>
       </div>
-      <Chapters></Chapters>
+      <Chapters time={time}></Chapters>
     </div>
   );
 }
@@ -61,9 +65,7 @@ function VideoButton({ onClick, globalVideoPlaying }) {
       className="circle"
       onClick={onClick}
       initial={{ opacity: "1" }}
-      animate={
-        globalVideoPlaying !== false ? { opacity: "0.3" } : { opacity: "1" }
-      }
+      animate={globalVideoPlaying ? { opacity: "0" } : { opacity: "1" }}
     >
       <motion.svg
         xmlns="http://www.w3.org/2000/svg"
