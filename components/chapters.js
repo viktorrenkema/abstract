@@ -3,7 +3,7 @@ import ChapterCard from "./chapterCard";
 export default function Chapters({ time }) {
   return (
     <div className="chapterSelector">
-      <h2>{time}</h2>
+      {/* <h2>{time}</h2> */}
       <ChapterCard
         id={"MP101"}
         chapterTitle={"1. Introductie"}

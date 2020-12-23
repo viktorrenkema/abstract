@@ -16,6 +16,11 @@ const chapterCardVariants = {
   },
 };
 
+const chapterCardUnderline = {
+  current: { opacity: 1 },
+  dimmed: { opacity: 0.3 },
+};
+
 export default function ChapterCard({
   chapterTitle,
   chapterDuration,
@@ -37,17 +42,9 @@ export default function ChapterCard({
   React.useEffect(() => {
     const documentVideo = document.getElementById("courseVideo");
     setVideoElement(documentVideo);
-
-    // setInterval(function () {
-    //   if (videoElement) {
-    //     console.log("got the video");
-    //     console.log(videoElement);
-    //   } else if (!videoElement) {
-    //     console.log("there's no video yet");
-    //   }
-    // }, 2000);
-
-    // setVideoDuration(videoElement.duration);
+    if (videoElement) {
+      setVideoDuration(videoElement.duration);
+    }
   }, []);
 
   // Set the current Chapter, pass this as currenttime to video & play the video
@@ -68,25 +65,23 @@ export default function ChapterCard({
   if (hasNextChapter) {
     if (time > chapterDuration && time < podcasting[index + 1]) {
       setChapterPlaying(id);
-      console.log("current chapter set to ", id);
     } else if (time > chapterDuration) {
       setChapterPlaying(id);
-      console.log("current chapter set to ", id);
     }
   }
 
-  // Motion: Transforms for animating progress bar
+  //  Reset setChapterPlaying if time is 0 OR time equals end of video
+  if (time === 0 || time >= podcasting[Object.keys(podcasting).length - 1]) {
+    setChapterPlaying(null);
+  }
+
+  // Framer Motion: Transforms for animating progress bar
   const width = useMotionValue(0);
   width.set(time);
 
   const timeInput = [chapterDuration, podcasting[index + 1]];
-  // const timeInputLast = [chapterDuration, videoElement.duration];
   const output = [0, 350];
-
   const transformedWidth = useTransform(width, timeInput, output);
-  // const transformedWidthLast = useTransform(width, timeInputLast, output);
-
-  console.log("transformedWidth is ", transformedWidth);
 
   return (
     <>
@@ -100,14 +95,16 @@ export default function ChapterCard({
           <span className="textStyle2">{`${chapterDuration} minuten`}</span>
         </div>{" "}
         <motion.div
+          variants={chapterCardUnderline}
           style={{
+            // width: transformedWidth,
             width: transformedWidth,
-            // width: hasNextChapter ? transformedWidth : transformedWidthLast,
             position: "absolute",
             height: "2px",
             marginTop: "58px",
-            backgroundColor: "#01adfe4a",
+            backgroundColor: "#01adfe",
           }}
+          animate={id === chapterPlaying ? "current" : "dimmed"}
         ></motion.div>
         <div className="flexwrapButton">
           <Play

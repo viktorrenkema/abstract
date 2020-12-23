@@ -2,23 +2,27 @@ import * as React from "react";
 import Chapters from "./chapters";
 import { motion, useMotionValue } from "framer-motion";
 import { isVideoPlaying } from "../state/context";
+import { podcasting } from "../lib/chapterTimestamps";
+import { VideoButton } from "./videoButton";
 
 // Context import
 import { GlobalState } from "../state/context";
+import { VideoID } from "../state/context";
 
 export default function Course() {
   // Context
+  const [chapterPlaying, setChapterPlaying] = React.useContext(VideoID);
   const [globalVideoPlaying, setGlobalVideoPlaying] = React.useContext(
     isVideoPlaying
   );
   const [time, setTime] = React.useContext(GlobalState);
+
+  // Local state
   const [localTime, setLocalTime] = React.useState(0);
-
-  console.log("isVideoPlaying is ", globalVideoPlaying);
-
   const [video, setVideo] = React.useState([]);
   const [elapsed, setElapsed] = React.useState(0);
 
+  // Functions
   function updateVideoTime() {
     video.ontimeupdate = function () {
       setTime(video.currentTime);
@@ -30,23 +34,8 @@ export default function Course() {
   React.useEffect(() => {
     const documentVideo = document.getElementById("courseVideo");
     setVideo(documentVideo);
-    console.log(documentVideo);
     updateVideoTime();
   });
-
-  // React.useEffect(() => {
-  //   const documentVideo = document.getElementById("courseVideo");
-  //   console.log("bladiebla");
-  //   setVideo(documentVideo);
-  //   console.log(documentVideo);
-
-  //   video.ontimeupdate = function () {
-  //     setTime(video.currentTime);
-  //     setLocalTime(video.currentTime);
-  //     console.log(video.currentTime);
-  //     console.log(localTime);
-  //   };
-  // }, []);
 
   video.onpause = function () {
     setGlobalVideoPlaying(false);
@@ -61,13 +50,36 @@ export default function Course() {
     globalVideoPlaying ? video.pause() : video.play();
   }
 
+  // Variants for overlay
+  const overlay = {
+    show: {
+      opacity: 0.8,
+    },
+    hide: {
+      opacity: 0,
+    },
+  };
+
   return (
     <div className="courseWindow">
       <div className="videoPlayer">
         <VideoButton
           globalVideoPlaying={globalVideoPlaying}
           onClick={toggleContinuePlaying}
+          chapterPlaying={chapterPlaying}
+          time={time}
         ></VideoButton>
+        <motion.div
+          style={{
+            position: "absolute",
+            width: "772px",
+            height: "434px",
+            background: "black",
+          }}
+          variants={overlay}
+          initial={"show"}
+          animate={globalVideoPlaying ? "hide" : "show"}
+        ></motion.div>
         <video id="courseVideo" width="787" height="433" controls muted>
           <source
             src={require("../public/videos/recording.mp4")}
@@ -77,28 +89,5 @@ export default function Course() {
       </div>
       <Chapters time={time}></Chapters>
     </div>
-  );
-}
-
-function VideoButton({ onClick, globalVideoPlaying }) {
-  return (
-    <motion.div
-      className="circle"
-      onClick={onClick}
-      initial={{ opacity: "1" }}
-      animate={globalVideoPlaying ? { opacity: "0" } : { opacity: "1" }}
-    >
-      <motion.svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="22"
-        height="26"
-        className="videobutton-svg"
-      >
-        <motion.path
-          d="M 22 13 L -0.5 25.99 L -0.5 0.01 Z"
-          fill="hsl(0, 0%, 88%)"
-        ></motion.path>
-      </motion.svg>
-    </motion.div>
   );
 }

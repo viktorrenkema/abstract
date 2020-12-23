@@ -36,7 +36,7 @@ export default function Index({ allPosts }) {
           <Container>
             <Header />
             <Intro />
-            <CourseIntro></CourseIntro>
+
             <CurrentVideoTime.Provider
               value={[stateCurrentVideoTime, setStateCurrentVideoTime]}
             >
@@ -49,6 +49,7 @@ export default function Index({ allPosts }) {
                 </isVideoPlaying.Provider>
               </VideoID.Provider>
             </CurrentVideoTime.Provider>
+            <CourseIntro></CourseIntro>
           </Container>
         </GlobalState.Provider>
       </Layout>
