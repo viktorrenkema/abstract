@@ -100,6 +100,7 @@ video:focus {
   align-items: flex-start;
   padding: 20px;
   overflow: visible;
+  z-index: 3;
 }
 
 .containerCourseIntro {

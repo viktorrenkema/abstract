@@ -1,6 +1,6 @@
 import * as React from "react";
 import Chapters from "./chapters";
-import { motion } from "framer-motion";
+import { motion, useMotionValue } from "framer-motion";
 import { isVideoPlaying } from "../state/context";
 
 // Context import
@@ -12,20 +12,41 @@ export default function Course() {
     isVideoPlaying
   );
   const [time, setTime] = React.useContext(GlobalState);
+  const [localTime, setLocalTime] = React.useState(0);
 
   console.log("isVideoPlaying is ", globalVideoPlaying);
 
   const [video, setVideo] = React.useState([]);
   const [elapsed, setElapsed] = React.useState(0);
 
+  function updateVideoTime() {
+    video.ontimeupdate = function () {
+      setTime(video.currentTime);
+      setLocalTime(video.currentTime);
+      // console.log(video.currentTime);
+    };
+  }
+
   React.useEffect(() => {
     const documentVideo = document.getElementById("courseVideo");
     setVideo(documentVideo);
-    video.ontimeupdate = function () {
-      console.log(video.currentTime);
-      setTime(video.currentTime);
-    };
-  }, [time]);
+    console.log(documentVideo);
+    updateVideoTime();
+  }, []);
+
+  // React.useEffect(() => {
+  //   const documentVideo = document.getElementById("courseVideo");
+  //   console.log("bladiebla");
+  //   setVideo(documentVideo);
+  //   console.log(documentVideo);
+
+  //   video.ontimeupdate = function () {
+  //     setTime(video.currentTime);
+  //     setLocalTime(video.currentTime);
+  //     console.log(video.currentTime);
+  //     console.log(localTime);
+  //   };
+  // }, []);
 
   video.onpause = function () {
     setGlobalVideoPlaying(false);

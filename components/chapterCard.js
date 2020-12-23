@@ -1,6 +1,7 @@
 import * as React from "react";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useTransform } from "framer-motion";
 import { THEME_TINT } from "../lib/constants";
+import { podcasting } from "../lib/chapterTimestamps";
 
 // Context imports
 import { VideoID } from "../state/context";
@@ -15,24 +16,41 @@ const chapterCardVariants = {
   },
 };
 
-export default function ChapterCard({ chapterTitle, chapterDuration, id }) {
+export default function ChapterCard({
+  chapterTitle,
+  chapterDuration,
+  id,
+  index,
+}) {
   // Context
   const [chapterPlaying, setChapterPlaying] = React.useContext(VideoID);
   const [playStatus, setPlayStatus] = React.useState(false);
   const [time, setTime] = React.useContext(GlobalState);
   // End contexts
 
-  // Logging
-  console.log("Video ID is ", chapterPlaying);
-  // End logging
-
+  // Store the video html element
   const [videoElement, setVideoElement] = React.useState(null);
+  // Store the video’s total duration
+  const [videoDuration, setVideoDuration] = React.useState(null);
 
+  // In useEffect so it only runs in browser -- find the video player and store it in a useState hook
   React.useEffect(() => {
     const documentVideo = document.getElementById("courseVideo");
     setVideoElement(documentVideo);
+
+    // setInterval(function () {
+    //   if (videoElement) {
+    //     console.log("got the video");
+    //     console.log(videoElement);
+    //   } else if (!videoElement) {
+    //     console.log("there's no video yet");
+    //   }
+    // }, 2000);
+
+    // setVideoDuration(videoElement.duration);
   }, []);
 
+  // Set the current Chapter, pass this as currenttime to video & play the video
   function playVid() {
     setChapterPlaying(id);
     setPlayStatus(true);
@@ -40,26 +58,66 @@ export default function ChapterCard({ chapterTitle, chapterDuration, id }) {
     videoElement.currentTime = chapterDuration;
   }
 
-  // if (time < chapterDuration) {
-  //   setChapterPlaying(id);
-  //   console.log(chapterDuration);
-  // }
+  // Calculate and store (as boolean) if the current chapter also has a next chapter
+  const hasNextChapter = () => {
+    if (podcasting[index + 1]) return true;
+    else return false;
+  };
+
+  // Set the current played Chapter depending on the current time running
+  if (hasNextChapter) {
+    if (time > chapterDuration && time < podcasting[index + 1]) {
+      setChapterPlaying(id);
+      console.log("current chapter set to ", id);
+    } else if (time > chapterDuration) {
+      setChapterPlaying(id);
+      console.log("current chapter set to ", id);
+    }
+  }
+
+  // Motion: Transforms for animating progress bar
+  const width = useMotionValue(0);
+  width.set(time);
+
+  const timeInput = [chapterDuration, podcasting[index + 1]];
+  // const timeInputLast = [chapterDuration, videoElement.duration];
+  const output = [0, 350];
+
+  const transformedWidth = useTransform(width, timeInput, output);
+  // const transformedWidthLast = useTransform(width, timeInputLast, output);
+
+  console.log("transformedWidth is ", transformedWidth);
 
   return (
-    <motion.div
-      className="chapterCard"
-      variants={chapterCardVariants}
-      animate={id === chapterPlaying ? "active" : "inactive"}
-    >
-      <div className="flexwraptext">
-        <span className="textStyle1">{chapterTitle}</span>
-        <span className="textStyle2">{`${chapterDuration} minuten`}</span>
-      </div>
-
-      <div className="flexwrapButton">
-        <Play onClick={playVid} chapterPlaying={chapterPlaying} id={id}></Play>
-      </div>
-    </motion.div>
+    <>
+      <motion.div
+        className="chapterCard"
+        variants={chapterCardVariants}
+        animate={id === chapterPlaying ? "active" : "inactive"}
+      >
+        <div className="flexwraptext">
+          <span className="textStyle1">{chapterTitle}</span>
+          <span className="textStyle2">{`${chapterDuration} minuten`}</span>
+        </div>{" "}
+        <motion.div
+          style={{
+            width: transformedWidth,
+            // width: hasNextChapter ? transformedWidth : transformedWidthLast,
+            position: "absolute",
+            height: "2px",
+            marginTop: "58px",
+            backgroundColor: "#01adfe4a",
+          }}
+        ></motion.div>
+        <div className="flexwrapButton">
+          <Play
+            onClick={playVid}
+            chapterPlaying={chapterPlaying}
+            id={id}
+          ></Play>
+        </div>
+      </motion.div>
+    </>
   );
 }
 
