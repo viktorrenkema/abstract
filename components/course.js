@@ -23,7 +23,7 @@ export default function Course() {
     video.ontimeupdate = function () {
       setTime(video.currentTime);
       setLocalTime(video.currentTime);
-      // console.log(video.currentTime);
+      console.log(video.currentTime);
     };
   }
 
@@ -32,7 +32,7 @@ export default function Course() {
     setVideo(documentVideo);
     console.log(documentVideo);
     updateVideoTime();
-  }, []);
+  });
 
   // React.useEffect(() => {
   //   const documentVideo = document.getElementById("courseVideo");
