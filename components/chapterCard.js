@@ -23,7 +23,7 @@ const chapterCardUnderline = {
 
 export default function ChapterCard({
   chapterTitle,
-  chapterDuration,
+
   id,
   index,
 }) {
@@ -52,23 +52,35 @@ export default function ChapterCard({
     setChapterPlaying(id);
     setPlayStatus(true);
     videoElement.play();
-    videoElement.currentTime = chapterDuration;
+    videoElement.currentTime = podcasting[index];
   }
 
   // Calculate and store (as boolean) if the current chapter also has a next chapter
   const hasNextChapter = () => {
-    if (podcasting[index + 1]) return true;
+    if (podcasting[index - 1]) return true;
     else return false;
   };
 
+  // ..
+
   // Set the current played Chapter depending on the current time running
   if (hasNextChapter) {
-    if (time > chapterDuration && time < podcasting[index + 1]) {
+    if (time < podcasting[index + 1] && time > podcasting[index]) {
       setChapterPlaying(id);
-    } else if (time > chapterDuration) {
+    } else if (time > podcasting[index + 1]) {
       setChapterPlaying(id);
     }
   }
+
+  // if (hasNextChapter) {
+  //   if (time > chapterDuration && time < podcasting[index + 1]) {
+  //     setChapterPlaying(id);
+  //   } else if (time > chapterDuration) {
+  //     setChapterPlaying(id);
+  //   }
+  // }
+
+  // ..
 
   //  Reset setChapterPlaying if time is 0 OR time equals end of video
   if (time === 0 || time >= podcasting[Object.keys(podcasting).length - 1]) {
@@ -79,7 +91,7 @@ export default function ChapterCard({
   const width = useMotionValue(0);
   width.set(time);
 
-  const timeInput = [chapterDuration, podcasting[index + 1]];
+  const timeInput = [podcasting[index], podcasting[index + 1]];
   const output = [0, 350];
   const transformedWidth = useTransform(width, timeInput, output);
 
@@ -92,7 +104,7 @@ export default function ChapterCard({
       >
         <div className="flexwraptext">
           <span className="textStyle1">{chapterTitle}</span>
-          <span className="textStyle2">{`${chapterDuration} minuten`}</span>
+          <span className="textStyle2">{`vanaf 0:${podcasting[index]}`}</span>
         </div>{" "}
         <motion.div
           variants={chapterCardUnderline}
