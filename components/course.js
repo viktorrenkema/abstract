@@ -75,11 +75,17 @@ export default function Course() {
             width: "772px",
             height: "434px",
             background: "black",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
           }}
           variants={overlay}
           initial={"show"}
           animate={globalVideoPlaying ? "hide" : "show"}
-        ></motion.div>
+        >
+          {/* <h1>Subscribe to get full access</h1> */}
+        </motion.div>
         <video id="courseVideo" width="787" height="433" controls muted>
           <source
             src={require("../public/videos/recording.mp4")}

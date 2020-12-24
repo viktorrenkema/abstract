@@ -30,6 +30,13 @@ export function VideoButton({
         animate={logoAnimate}
         transition={logoTransition}
       >
+        {" "}
+        {/* <svg xmlns="http://www.w3.org/2000/svg" width="47" height="47">
+          <path
+            d="M 7.274 7.274 L 39.167 7.274 L 39.167 39.167 L 7.274 39.167 Z"
+            fill="#CCC"
+          ></path>
+        </svg> */}
         {time >= podcasting[Object.keys(podcasting).length - 1] ? (
           <motion.svg xmlns="http://www.w3.org/2000/svg" width="29" height="30">
             <motion.path
