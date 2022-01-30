@@ -11,7 +11,7 @@ export default function Intro({ onClick, theme, setTheme, login }) {
       <p className="presents-copy">presents</p>
       <h2></h2>
       <h2 className="coursename">Podcasts</h2>
-      <h3 className="teacher">met {TEACHER}</h3>
+      <h3 className="teacher">with {TEACHER}</h3>
     </section>
   );
 }

@@ -12,9 +12,8 @@ import { VideoID } from "../state/context";
 export default function Course() {
   // Context
   const [chapterPlaying, setChapterPlaying] = React.useContext(VideoID);
-  const [globalVideoPlaying, setGlobalVideoPlaying] = React.useContext(
-    isVideoPlaying
-  );
+  const [globalVideoPlaying, setGlobalVideoPlaying] =
+    React.useContext(isVideoPlaying);
   const [time, setTime] = React.useContext(GlobalState);
 
   // Local state
